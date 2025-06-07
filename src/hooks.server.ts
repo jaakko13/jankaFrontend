@@ -1,7 +1,8 @@
 import { sequence } from '@sveltejs/kit/hooks';
-import * as auth from '$lib/server/auth.js';
 import type { Handle } from '@sveltejs/kit';
 import { paraglideMiddleware } from '$lib/paraglide/server';
+import { supabase } from '$lib/supabase';
+import { redirect } from '@sveltejs/kit';
 
 const handleParaglide: Handle = ({ event, resolve }) =>
 	paraglideMiddleware(event.request, ({ request, locale }) => {
@@ -13,25 +14,24 @@ const handleParaglide: Handle = ({ event, resolve }) =>
 	});
 
 const handleAuth: Handle = async ({ event, resolve }) => {
-	const sessionToken = event.cookies.get(auth.sessionCookieName);
+	// Get the auth token from the cookie
+	const token = event.cookies.get('sb-token');
 
-	if (!sessionToken) {
-		event.locals.user = null;
-		event.locals.session = null;
-		return resolve(event);
-	}
-
-	const { session, user } = await auth.validateSessionToken(sessionToken);
-
-	if (session) {
-		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+	if (token) {
+		// Set the auth token in the supabase client
+		const { data: { user } } = await supabase.auth.getUser(token);
+		event.locals.user = user;
 	} else {
-		auth.deleteSessionTokenCookie(event);
+		event.locals.user = null;
 	}
 
-	event.locals.user = user;
-	event.locals.session = session;
+	// Protect routes that require authentication
+	const protectedRoutes = ['/profile'];
+	if (protectedRoutes.includes(event.url.pathname) && !event.locals.user) {
+		throw redirect(303, '/login');
+	}
+
 	return resolve(event);
 };
 
-export const handle: Handle = sequence(handleParaglide, handleAuth);
+export const handle = sequence(handleParaglide, handleAuth);
