@@ -1,5 +1,8 @@
 <script>
   import { onMount } from 'svelte';
+  import { user } from '$lib/auth';
+  import { supabase } from '$lib/supabase';
+  import { goto } from '$app/navigation';
   
   let scrollY = 0;
   let mobileMenuOpen = false;
@@ -18,6 +21,14 @@
     mobileMenuOpen = false;
   }
 
+  async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      await goto('/login');
+      closeMobileMenu();
+    }
+  }
+  
   const features = [
     {
       icon: '📅',
@@ -65,60 +76,7 @@
 
 <svelte:window bind:scrollY />
 
-<!-- Navigation -->
-<div class="navbar fixed top-0 left-0 right-0 w-screen z-50 bg-base-100/80 backdrop-blur-md border-b border-base-300/50 transition-all duration-300"
-     class:shadow-lg={scrollY > 50}>
-  <div class="navbar-start">
-    <div class="dropdown lg:hidden">
-      <div tabindex="0" role="button" class="btn btn-ghost" on:click={toggleMobileMenu}>
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={mobileMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'} />
-        </svg>
-      </div>
-      {#if mobileMenuOpen}
-        <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-4 shadow-lg bg-base-100 rounded-box w-80">
-          <li><a href="#features" on:click={closeMobileMenu} class="text-lg">Features</a></li>
-          <li><a href="#pricing" on:click={closeMobileMenu} class="text-lg">Pricing</a></li>
-          <li><a href="#testimonials" on:click={closeMobileMenu} class="text-lg">Reviews</a></li>
-          <li><a href="#contact" on:click={closeMobileMenu} class="text-lg">Contact</a></li>
-          <div class="divider"></div>
-          <li><a href="/login" class="btn btn-ghost btn-block justify-start" sveltekit:prefetch>Log In</a></li>
-          <li><a href="/signup"  class="btn btn-primary btn-block" sveltekit:prefetch>Sign Up</a></li>
-        </ul>
-      {/if}
-    </div>
-    
-    <!-- Logo -->
-    <a class="btn btn-ghost text-xl normal-case">
-      <div class="avatar placeholder">
-        <div class="bg-gradient-to-br from-primary to-secondary text-primary-content rounded-xl w-8 sm:w-10">
-          <span class="text-sm sm:text-lg font-bold">J</span>
-        </div>
-      </div>
-      <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-bold">
-        Janka
-      </span>
-    </a>
-  </div>
-  
-  <!-- Desktop Navigation -->
-  <div class="navbar-center hidden lg:flex">
-    <ul class="menu menu-horizontal px-1">
-      <li><a href="#features" class="font-medium">Features</a></li>
-      <li><a href="#pricing" class="font-medium">Pricing</a></li>
-      <li><a href="#testimonials" class="font-medium">Reviews</a></li>
-      <li><a href="#contact" class="font-medium">Contact</a></li>
-    </ul>
-  </div>
-  
-  <!-- Desktop Auth Buttons -->
-  <div class="navbar-end hidden lg:flex">
-    <div class="flex gap-2">
-      <a href="/login" class="btn btn-ghost">Log In</a>
-      <a href="/signup" class="btn btn-primary">Sign Up</a>
-    </div>
-  </div>
-</div>
+
 
 <!-- Hero Section -->
 <div class="hero min-h-screen bg-gradient-to-br from-base-200 via-base-100 to-primary/10 pt-16 text-white">
