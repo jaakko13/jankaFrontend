@@ -33,26 +33,24 @@
 
 <svelte:window bind:scrollY />
 
-<div class="min-h-screen">
-  <!-- Navigation -->
-  <div class="navbar fixed top-0 left-0 right-0 w-screen z-50 bg-base-100/80 backdrop-blur-md border-b border-base-300/50 transition-all duration-300"
+<div class="min-h-screen" data-theme="aqua">  <!-- Navigation -->
+  <div class="navbar fixed top-0 left-0 right-0 w-screen z-50 bg-secondary text-secondary-content transition-all duration-300"
        class:shadow-lg={scrollY > 50}>
     <div class="navbar-start flex items-center">
       <!-- Logo -->
       <a href="/" class="btn btn-ghost text-xl normal-case">
         <div class="avatar placeholder">
-          <div class="bg-gradient-to-br from-primary to-secondary text-primary-content rounded-xl w-8 sm:w-10">
+          <div class="text-primary-content rounded-xl w-8 sm:w-10">
             <span class="text-sm sm:text-lg font-bold">J</span>
           </div>
         </div>
         <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-bold">
           Janka
         </span>
-      </a>
-
-      <!-- Desktop Navigation -->
+      </a>      <!-- Desktop Navigation -->
       <ul class="hidden lg:flex menu menu-horizontal px-1 gap-2">
         <li><a href="#features" class="btn btn-ghost btn-sm">Features</a></li>
+        <li><a href="/marketplace" class="btn btn-ghost btn-sm">Marketplace</a></li>
         <li><a href="#pricing" class="btn btn-ghost btn-sm">Pricing</a></li>
         <li><a href="#testimonials" class="btn btn-ghost btn-sm">Reviews</a></li>
         <li><a href="#contact" class="btn btn-ghost btn-sm">Contact</a></li>
@@ -65,9 +63,9 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={mobileMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'} />
           </svg>
         </div>
-        {#if mobileMenuOpen}
-          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-4 shadow-lg bg-base-100 rounded-box w-80">
+        {#if mobileMenuOpen}          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-4 shadow-lg bg-base-100 rounded-box w-80">
             <li><a href="#features" on:click={closeMobileMenu}>Features</a></li>
+            <li><a href="/marketplace" on:click={closeMobileMenu}>Marketplace</a></li>
             <li><a href="#pricing" on:click={closeMobileMenu}>Pricing</a></li>
             <li><a href="#testimonials" on:click={closeMobileMenu}>Reviews</a></li>
             <li><a href="#contact" on:click={closeMobileMenu}>Contact</a></li>

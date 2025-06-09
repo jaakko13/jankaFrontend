@@ -79,18 +79,17 @@
 
 
 <!-- Hero Section -->
-<div class="hero min-h-screen bg-gradient-to-br from-base-200 via-base-100 to-primary/10 pt-16 text-white">
+<div class="hero min-h-screen pt-16 bg-primary text-primary-content">
   <div class="hero-content text-center max-w-7xl">
     <div class="max-w-4xl">
       <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 leading-tight">
         <span class="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
           Schedule Smarter,
-        </span>
-        <br>
-        <span style="color: #fff;">Live Better</span>
+        </span>        <br>
+        <span class="text-primary-content">Live Better</span>
       </h1>
       
-      <p class="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 leading-relaxed opacity-80 px-4 text-white">
+      <p class="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 leading-relaxed opacity-80 px-4">
         Transform your appointment booking experience with AI-powered scheduling that works seamlessly for both you and your clients.
       </p>
       
@@ -101,21 +100,19 @@
         <button class="btn btn-outline btn-lg w-full sm:w-auto">
           Watch Demo
         </button>
-      </div>
-
-      <!-- Stats -->
-      <div class="stats stats-vertical sm:stats-horizontal shadow-lg bg-base-100">
+      </div>      <!-- Stats -->
+      <div class="stats stats-vertical sm:stats-horizontal shadow-lg">
         <div class="stat">
-          <div class="stat-value text-white">10M+</div>
-          <div class="stat-desc text-white">Appointments Booked</div>
+          <div class="stat-value">10M+</div>
+          <div class="stat-desc">Appointments Booked</div>
         </div>
         <div class="stat">
-          <div class="stat-value text-white">50K+</div>
-          <div class="stat-desc text-white">Happy Businesses</div>
+          <div class="stat-value">50K+</div>
+          <div class="stat-desc">Happy Businesses</div>
         </div>
         <div class="stat">
-          <div class="stat-value text-white">99.9%</div>
-          <div class="stat-desc text-white">Uptime Guarantee</div>
+          <div class="stat-value">99.9%</div>
+          <div class="stat-desc">Uptime Guarantee</div>
         </div>
       </div>
     </div>
@@ -123,10 +120,10 @@
 </div>
 
 <!-- Features Section -->
-<section id="features" class="py-16 sm:py-20 bg-base-100 text-white">
+<section id="features" class="py-16 sm:py-20 bg-primary text-primary-content">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-12 sm:mb-16">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-white">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
         Everything You Need to
         <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
           Succeed
@@ -155,10 +152,10 @@
 </section>
 
 <!-- Testimonials Section -->
-<section id="testimonials" class="py-16 sm:py-20 bg-base-200 text-white">
+<section id="testimonials" class="py-16 sm:py-20 bg-primary text-primary-content">
   <div class="container mx-auto px-4 sm:px-6 lg:px-8">
     <div class="text-center mb-12 sm:mb-16">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-white">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
         Loved by
         <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
           Thousands
