@@ -1,222 +1,109 @@
-<script lang="ts">
-  import { enhance } from '$app/forms';
+<script>
+  import { onMount } from 'svelte';
+  import { user } from '$lib/auth';
+  import { supabase } from '$lib/supabase';
+  import { goto } from '$app/navigation';
+  
+  let scrollY = 0;
+  let mobileMenuOpen = false;
+  
+  onMount(() => {
+    const handleScroll = () => scrollY = window.scrollY;
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  });
 
-  let formData = {
-    businessName: '',
-    yTunnus: '',
-    ownerName: '',
-    email: '',
-    phone: '',
-    description: '',
-    category: '',
-    address: '',
-    website: ''
-  };
+  function toggleMobileMenu() {
+    mobileMenuOpen = !mobileMenuOpen;
+  }
 
-  let submitting = false;
-  let success = false;
-  let error = '';
+  function closeMobileMenu() {
+    mobileMenuOpen = false;
+  }
 
-  const categories = [
-    'Retail',
-    'Restaurant',
-    'Professional Services',
-    'Healthcare',
-    'Beauty & Wellness',
-    'Entertainment',
-    'Other'
-  ];
-
-  const handleSubmit = async (e: SubmitEvent) => {
-    submitting = true;
-    error = '';
-    success = false;
-
-    try {
-      // Here you would typically make an API call to save the business data
-      // For now, we'll just simulate a successful submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      success = true;
-      formData = {
-        businessName: '',
-        ownerName: '',
-        email: '',
-        phone: '',
-        description: '',
-        category: '',
-        address: '',
-        website: ''
-      };
-    } catch (err) {
-      error = 'Failed to submit business information. Please try again.';
-    } finally {
-      submitting = false;
+  async function handleLogout() {
+    const { error } = await supabase.auth.signOut();
+    if (!error) {
+      await goto('/login');
+      closeMobileMenu();
     }
-  };
+  }
+
 </script>
 
-<div class="min-h-screen py-20 px-4 sm:px-6 lg:px-8">
-  <div class="max-w-4xl mx-auto">
-    <div class="text-center mb-12">
-      <h1 class="text-4xl font-bold text-base-content mb-4">Join Our Marketplace</h1>
-      <p class="text-lg text-base-content/80">
-        List your business and reach more customers through our platform
-      </p>
-    </div>    <div class="card bg-base-100 shadow-xl">
-      <div class="card-body">
-        <form on:submit|preventDefault={handleSubmit} class="space-y-6">
-          <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-            <div class="form-control w-full">
-              <label for="businessName" class="label">
-                <span class="label-text">Business Name*</span>
-              </label>              <input
-                type="text"
-                id="businessName"
-                bind:value={formData.businessName}
-                class="input input-bordered w-full"
-                required
-              />
-            </div>
-            
-            <div class="form-control w-full">
-              <label for="yTunnus" class="label">
-                <span class="label-text">Y-tunnus (Business ID)*</span>
-                <span class="label-text-alt">Format: 1234567-8</span>
-              </label>
-              <input
-                type="text"
-                id="yTunnus"
-                bind:value={formData.yTunnus}
-                class="input input-bordered w-full"
-                pattern="^[0-9]{7}-[0-9]$"
-                placeholder="1234567-8"
-                required
-              />
-            </div>
-            
-            <div class="form-control w-full">
-              <label for="ownerName" class="label">
-                <span class="label-text">Owner Name*</span>
-              </label>
-              <input
-                type="text"
-                id="ownerName"
-                bind:value={formData.ownerName}
-                class="input input-bordered w-full"
-                required
-              />
-            </div>
+<svelte:window bind:scrollY />
 
-            <div class="form-control w-full">
-              <label for="email" class="label">
-                <span class="label-text">Email*</span>
-              </label>
-              <input
-                type="email"
-                id="email"
-                bind:value={formData.email}
-                class="input input-bordered w-full"
-                required
-              />
-            </div>
+<div style="background-color: #B3D6FF; min-height: 100vh;">
+  <!-- Top Centered Heading -->
+  <div style="width: 100%; text-align: center; max-width: 56rem; margin: 0 auto; padding-top: 2.5rem;">
+    <h1 style="font-size: 2.25rem; font-weight: 700; line-height: 1.2;">
+      <span style="color: var(--tw-prose-invert);">Live Better</span>
+    </h1>
+    <p style="font-size: 1.25rem; margin-bottom: 2rem; line-height: 1.6; opacity: 0.8; padding-left: 1rem; padding-right: 1rem;">
+      Transform your appointment booking experience with AI-powered scheduling that works seamlessly for both you and your clients.
+    </p>
+  </div>
 
-            <div class="form-control w-full">
-              <label for="phone" class="label">
-                <span class="label-text">Phone Number*</span>
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                bind:value={formData.phone}
-                class="input input-bordered w-full"
-                required
-              />
-            </div>
+ 
 
-            <div class="form-control w-full sm:col-span-2">
-              <label for="category" class="label">
-                <span class="label-text">Business Category*</span>
-              </label>
-              <select
-                id="category"
-                bind:value={formData.category}
-                class="select select-bordered w-full"
-                required
-              >
-                <option value="">Select a category</option>
-                {#each categories as category}
-                  <option value={category}>{category}</option>
-                {/each}
-              </select>
+  <!-- Footer -->
+  <footer style="text-align: center; padding: 2.5rem; color: #111;">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; max-width: 80rem; margin: 0 auto; color: #111;">
+      <!-- Company Info -->
+      <div style="text-align: left; color: #111; width: 100%; max-width: 28rem;">
+        <div style="display: flex; align-items: center; margin-bottom: 1.5rem; color: #111;">
+          <div style="margin-right: 0.75rem;">
+            <div style="background: linear-gradient(to bottom right, var(--tw-gradient-stops)); color: #111; border-radius: 0.75rem; width: 2.5rem; display: flex; align-items: center; justify-content: center; height: 2.5rem;">
+              <span style="font-weight: 700; color: #111;">J</span>
             </div>
-
-            <div class="form-control w-full sm:col-span-2">
-              <label for="address" class="label">
-                <span class="label-text">Business Address*</span>
-              </label>
-              <input
-                type="text"
-                id="address"
-                bind:value={formData.address}
-                class="input input-bordered w-full"
-                required
-              />
-            </div>
-
-            <div class="form-control w-full sm:col-span-2">
-              <label for="website" class="label">
-                <span class="label-text">Website (optional)</span>
-              </label>
-              <input
-                type="url"
-                id="website"
-                bind:value={formData.website}
-                class="input input-bordered w-full"
-                placeholder="https://"
-              />
-            </div>
-
-            <div class="form-control w-full sm:col-span-2">
-              <label for="description" class="label">
-                <span class="label-text">Business Description*</span>
-              </label>
-              <textarea
-                id="description"
-                bind:value={formData.description}
-                class="textarea textarea-bordered h-32"
-                required
-              ></textarea>
-            </div>
-          </div>          {#if error}
-            <div class="alert alert-error">
-              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span>{error}</span>
-            </div>
-          {/if}
-
-          {#if success}
-            <div class="alert alert-success">
-              <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-              <span>Your business information has been submitted successfully!</span>
-            </div>
-          {/if}
-
-          <div class="card-actions justify-center">
-            <button
-              type="submit"
-              class="btn btn-primary btn-lg"
-              disabled={submitting}
-            >
-              {#if submitting}
-                <span class="loading loading-spinner"></span>
-                Submitting...
-              {:else}
-                Submit Business
-              {/if}
-            </button>
           </div>
-        </form>
+          <span style="font-size: 2rem; font-weight: 700; color: #111;">Janka</span>
+        </div>
+        <p style="font-size: 1rem; opacity: 0.9; margin-bottom: 1.5rem; color: #111;">
+          The smartest way to manage appointments and grow your business. Trusted by thousands of professionals worldwide.
+        </p>
+        <div style="display: flex; gap: 0.75rem;">
+          <button style="border-radius: 9999px; background: none; color: #111; width: 2rem; height: 2rem;">📧</button>
+          <button style="border-radius: 9999px; background: none; color: #111; width: 2rem; height: 2rem;">🐦</button>
+          <button style="border-radius: 9999px; background: none; color: #111; width: 2rem; height: 2rem;">📱</button>
+        </div>
+      </div>
+      <!-- Product and Support Links Side by Side -->
+      <div style="display: flex; flex-direction: row; gap: 2rem; width: 100%; max-width: 40rem; justify-content: center; align-items: flex-start;" id="footer-links">
+        <div style="color: #111; min-width: 10rem;">
+          <span style="font-weight: 600; color: #111;">Product</span>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Features</a>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Pricing</a>
+        </div>
+        <div style="color: #111; min-width: 10rem;">
+          <span style="font-weight: 600; color: #111;">Support</span>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Help Center</a>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Contact Us</a>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Privacy</a>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Terms</a>
+        </div>
       </div>
     </div>
-  </div>
+    <div style="border-top: 1px solid #e5e7eb; margin-top: 2rem; padding-top: 1rem; color: #111;">
+      <p style="font-size: 1rem; opacity: 0.9; color: #111;">
+        &copy; 2025 Janka. All rights reserved. Built with ❤️ for appointment scheduling excellence.
+      </p>
+    </div>
+  </footer>
 </div>
+
+<style>
+  @import url('https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.css');
+  @import url('https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/base.css');
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+  :global([data-theme="light"]) {
+    --fallback-p: 259 94% 51%;
+    --fallback-pc: 259 96% 91%;
+    --fallback-s: 314 100% 47%;
+    --fallback-sc: 314 100% 91%;
+    --fallback-a: 174 60% 51%;
+    --fallback-ac: 174 60% 15%;
+  }
+</style>

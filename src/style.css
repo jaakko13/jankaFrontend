@@ -1,2 +1,6 @@
-@import "tailwindcss";
-@plugin "daisyui";
+@import "tailwindcss/preflight";
+@import "tailwindcss/utilities";
+
+@theme{
+    --color-primary: rgb(179, 214, 255);
+}

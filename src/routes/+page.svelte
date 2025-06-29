@@ -6,7 +6,8 @@
   
   let scrollY = 0;
   let mobileMenuOpen = false;
-  
+  let searchValue = '';
+
   onMount(() => {
     const handleScroll = () => scrollY = window.scrollY;
     window.addEventListener('scroll', handleScroll);
@@ -28,260 +29,86 @@
       closeMobileMenu();
     }
   }
-  
-  const features = [
-    {
-      icon: '📅',
-      title: 'Smart Scheduling',
-      description: 'AI-powered scheduling that adapts to your availability and preferences'
-    },
-    {
-      icon: '⚡',
-      title: 'Instant Booking',
-      description: 'Book appointments in seconds with our streamlined interface'
-    },
-    {
-      icon: '🔔',
-      title: 'Smart Reminders',
-      description: 'Never miss an appointment with intelligent notification system'
-    },
-    {
-      icon: '📊',
-      title: 'Analytics Dashboard',
-      description: 'Track your booking patterns and optimize your schedule'
-    }
-  ];
 
-  const testimonials = [
-    {
-      name: 'Sarah Chen',
-      role: 'Healthcare Provider',
-      text: 'Janka transformed how I manage patient appointments. The no-show rate dropped by 70%.',
-      avatar: '👩‍⚕️'
-    },
-    {
-      name: 'Marcus Rodriguez',
-      role: 'Salon Owner',
-      text: 'Our booking efficiency increased by 3x. Clients love the seamless experience.',
-      avatar: '✂️'
-    },
-    {
-      name: 'Emily Watson',
-      role: 'Fitness Coach',
-      text: 'The automated reminders and rescheduling features are game-changers.',
-      avatar: '💪'
-    }
-  ];
+  function handleSearchSubmit() {
+    goto('/marketplace');
+  }
 </script>
 
 <svelte:window bind:scrollY />
 
-
-
-<!-- Hero Section -->
-<div class="hero min-h-screen pt-16 bg-primary text-primary-content">
-  <div class="hero-content text-center max-w-7xl">
-    <div class="max-w-4xl">
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 sm:mb-8 leading-tight">
-        <span class="bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-          Schedule Smarter,
-        </span>        <br>
-        <span class="text-primary-content">Live Better</span>
-      </h1>
-      
-      <p class="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-12 leading-relaxed opacity-80 px-4">
-        Transform your appointment booking experience with AI-powered scheduling that works seamlessly for both you and your clients.
-      </p>
-      
-      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 sm:mb-16 px-4">
-        <button class="btn btn-primary btn-lg w-full sm:w-auto">
-          Start Free Trial
-        </button>
-        <button class="btn btn-outline btn-lg w-full sm:w-auto">
-          Watch Demo
-        </button>
-      </div>      <!-- Stats -->
-      <div class="stats stats-vertical sm:stats-horizontal shadow-lg">
-        <div class="stat">
-          <div class="stat-value">10M+</div>
-          <div class="stat-desc">Appointments Booked</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">50K+</div>
-          <div class="stat-desc">Happy Businesses</div>
-        </div>
-        <div class="stat">
-          <div class="stat-value">99.9%</div>
-          <div class="stat-desc">Uptime Guarantee</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Features Section -->
-<section id="features" class="py-16 sm:py-20 bg-primary text-primary-content">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12 sm:mb-16">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-        Everything You Need to
-        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-          Succeed
-        </span>
-      </h2>
-      <p class="text-lg sm:text-xl opacity-70 max-w-3xl mx-auto px-4 text-white">
-        Powerful features designed to streamline your booking process and delight your customers
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-      {#each features as feature, i}
-        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-base-300 text-white"
-             style="animation-delay: {i * 100}ms">
-          <div class="card-body">
-            <div class="text-3xl sm:text-4xl mb-4 transition-transform duration-300 hover:scale-110 text-white">
-              {feature.icon}
-            </div>
-            <h3 class="card-title text-lg sm:text-xl text-white">{feature.title}</h3>
-            <p class="text-sm sm:text-base opacity-90 text-white">{feature.description}</p>
-          </div>
-        </div>
-      {/each}
-    </div>
-  </div>
-</section>
-
-<!-- Testimonials Section -->
-<section id="testimonials" class="py-16 sm:py-20 bg-primary text-primary-content">
-  <div class="container mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="text-center mb-12 sm:mb-16">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6">
-        Loved by
-        <span class="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-          Thousands
-        </span>
-      </h2>
-      <p class="text-lg sm:text-xl opacity-90 text-white">See what our customers have to say</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-      {#each testimonials as testimonial, i}
-        <div class="card bg-base-100 shadow-xl hover:shadow-2xl transition-all duration-300 text-white"
-             style="animation-delay: {i * 150}ms">
-          <div class="card-body">
-            <div class="flex items-center mb-4">
-              <div class="avatar placeholder mr-4">
-                <div class="bg-neutral text-neutral-content rounded-full w-12 h-12">
-                  <span class="text-xl text-white">{testimonial.avatar}</span>
-                </div>
-              </div>
-              <div>
-                <div class="font-bold text-white">{testimonial.name}</div>
-                <div class="badge badge-outline badge-sm text-white">{testimonial.role}</div>
-              </div>
-            </div>
-            <blockquote class="text-sm sm:text-base opacity-90 mb-4 text-white">
-              "{testimonial.text}"
-            </blockquote>
-            <div class="rating rating-sm">
-              <input type="radio" name="rating-{i}" class="mask mask-star-2 bg-warning" disabled checked />
-              <input type="radio" name="rating-{i}" class="mask mask-star-2 bg-warning" disabled checked />
-              <input type="radio" name="rating-{i}" class="mask mask-star-2 bg-warning" disabled checked />
-              <input type="radio" name="rating-{i}" class="mask mask-star-2 bg-warning" disabled checked />
-              <input type="radio" name="rating-{i}" class="mask mask-star-2 bg-warning" disabled checked />
-            </div>
-          </div>
-        </div>
-      {/each}
-    </div>
-  </div>
-</section>
-
-<!-- CTA Section -->
-<div class="hero py-16 sm:py-20 bg-gradient-to-r from-primary via-secondary to-accent text-white">
-  <div class="hero-content text-center text-primary-content">
-    <div class="max-w-4xl">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 text-white">
-        Ready to Transform Your Business?
-      </h2>
-      <p class="text-lg sm:text-xl mb-6 sm:mb-8 opacity-90 text-white">
-        Join thousands of businesses already using Janka to streamline their appointment booking
-      </p>
-      <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <button class="btn btn-neutral btn-lg w-full sm:w-auto">
-          Start Your Free Trial
-        </button>
-        <button class="btn btn-outline btn-lg w-full sm:w-auto text-white border-white hover:bg-white hover:text-primary">
-          Schedule a Demo
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Footer -->
-<footer class="footer footer-center p-10 bg-base-200 text-white">
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl">
-    <!-- Company Info -->
-    <div class="col-span-1 sm:col-span-2 lg:col-span-2 text-left">
-      <div class="flex items-center mb-6">
-        <div class="avatar placeholder mr-3">
-          <div class="bg-gradient-to-br from-primary to-secondary text-primary-content rounded-xl w-10">
-            <span class="font-bold text-white">J</span>
-          </div>
-        </div>
-        <span class="text-2xl font-bold text-white">Janka</span>
-      </div>
-      <p class="text-sm sm:text-base opacity-90 mb-6 max-w-md text-white">
-        The smartest way to manage appointments and grow your business. Trusted by thousands of professionals worldwide.
-      </p>
-      <div class="flex gap-3">
-        <button class="btn btn-circle btn-ghost btn-sm text-white">📧</button>
-        <button class="btn btn-circle btn-ghost btn-sm text-white">🐦</button>
-        <button class="btn btn-circle btn-ghost btn-sm text-white">📱</button>
-      </div>
-    </div>
-    
-    <!-- Product Links -->
-    <div class="col-span-1">
-      <div class="mb-4">
-        <span class="footer-title text-white">Product</span>
-        <a class="link link-hover text-white">Features</a>
-        <a class="link link-hover text-white">Pricing</a>
-        <a class="link link-hover text-white">Integrations</a>
-        <a class="link link-hover text-white">API</a>
-      </div>
-    </div>
-    
-    <!-- Support Links -->
-    <div class="col-span-1">
-      <div class="mb-4">
-        <span class="footer-title text-white">Support</span>
-        <a class="link link-hover text-white">Help Center</a>
-        <a class="link link-hover text-white">Contact Us</a>
-        <a class="link link-hover text-white">Privacy</a>
-        <a class="link link-hover text-white">Terms</a>
-      </div>
-    </div>
-  </div>
-  
-  <!-- Footer Bottom -->
-  <div class="divider"></div>
-  <div>
-    <p class="text-sm opacity-90 text-white">
-      &copy; 2025 Janka. All rights reserved. Built with ❤️ for appointment scheduling excellence.
+<div style="background-color: var(--color-primary); min-height: 100vh;">
+  <!-- Top Centered Heading -->
+  <div style="width: 100%; text-align: center; max-width: 56rem; margin: 0 auto; padding-top: 2.5rem;">
+    <h1 style="font-size: 2.25rem; font-weight: 700; line-height: 1.2;">
+      <span style="color: var(--tw-prose-invert);">Live Better</span>
+    </h1>
+    <p style="font-size: 1.25rem; margin-bottom: 2rem; line-height: 1.6; opacity: 0.8; padding-left: 1rem; padding-right: 1rem;">
+      Transform your appointment booking experience with AI-powered scheduling that works seamlessly for both you and your clients.
     </p>
   </div>
-</footer>
+
+  <!-- Search Section -->
+  <section style="width: 100%; display: flex; justify-content: center; align-items: center; margin: 2rem 0; background: #B3D6FF;">
+    <form style="background: #fff; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 2rem; max-width: 32rem; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem; border: 1px solid #B3D6FF;" on:submit|preventDefault={handleSearchSubmit}>
+      <label for="service-search" style="font-size: 1.125rem; font-weight: 600; color: #222; margin-bottom: 0.5rem;">Find a Business</label>
+      <input id="service-search" name="service-search" type="text" placeholder="What service are you looking for? (e.g. massage, hair cut)" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #222; border-radius: 0.5rem; font-size: 1rem; color: #222; background: #F8FAFC;" bind:value={searchValue} />
+      <button type="submit" style="margin-top: 0.5rem; background: #7CCC82; color: #fff; font-weight: 600; border: none; border-radius: 0.5rem; padding: 0.75rem 2rem; font-size: 1rem; cursor: pointer; transition: background 0.2s;">Search</button>
+    </form>
+  </section>
+
+  <!-- Footer -->
+  <footer style="text-align: center; padding: 2.5rem; color: #111;">
+    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; max-width: 80rem; margin: 0 auto; color: #111;">
+      <!-- Company Info -->
+      <div style="text-align: left; color: #111; width: 100%; max-width: 28rem;">
+        <div style="display: flex; align-items: center; margin-bottom: 1.5rem; color: #111;">
+          <div style="margin-right: 0.75rem;">
+            <div style="background: linear-gradient(to bottom right, var(--tw-gradient-stops)); color: #111; border-radius: 0.75rem; width: 2.5rem; display: flex; align-items: center; justify-content: center; height: 2.5rem;">
+              <span style="font-weight: 700; color: #111;">J</span>
+            </div>
+          </div>
+          <span style="font-size: 2rem; font-weight: 700; color: #111;">Janka</span>
+        </div>
+        <p style="font-size: 1rem; opacity: 0.9; margin-bottom: 1.5rem; color: #111;">
+          The smartest way to manage appointments and grow your business. Trusted by thousands of professionals worldwide.
+        </p>
+        <div style="display: flex; gap: 0.75rem;">
+          <button style="border-radius: 9999px; background: none; color: #111; width: 2rem; height: 2rem;">📧</button>
+          <button style="border-radius: 9999px; background: none; color: #111; width: 2rem; height: 2rem;">🐦</button>
+          <button style="border-radius: 9999px; background: none; color: #111; width: 2rem; height: 2rem;">📱</button>
+        </div>
+      </div>
+      <!-- Product and Support Links Side by Side -->
+      <div style="display: flex; flex-direction: row; gap: 2rem; width: 100%; max-width: 40rem; justify-content: center; align-items: flex-start;" id="footer-links">
+        <div style="color: #111; min-width: 10rem;">
+          <span style="font-weight: 600; color: #111;">Product</span>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Features</a>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Pricing</a>
+        </div>
+        <div style="color: #111; min-width: 10rem;">
+          <span style="font-weight: 600; color: #111;">Support</span>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Help Center</a>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Contact Us</a>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Privacy</a>
+          <a style="display: block; margin-top: 0.5rem; color: #111;">Terms</a>
+        </div>
+      </div>
+    </div>
+    <div style="border-top: 1px solid #e5e7eb; margin-top: 2rem; padding-top: 1rem; color: #111;">
+      <p style="font-size: 1rem; opacity: 0.9; color: #111;">
+        &copy; 2025 Janka. All rights reserved. Built with ❤️ for appointment scheduling excellence.
+      </p>
+    </div>
+  </footer>
+</div>
 
 <style>
   @import url('https://cdn.jsdelivr.net/npm/daisyui@4.4.19/dist/full.css');
   @import url('https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/base.css');
-  
   :global(html) {
     scroll-behavior: smooth;
   }
-  
   :global([data-theme="light"]) {
     --fallback-p: 259 94% 51%;
     --fallback-pc: 259 96% 91%;
