@@ -19,9 +19,9 @@
   let error = '';
 
   const categories = [
-    'Retail',
-    'Restaurant',
-    'Professional Services',
+    'Massage',
+    'Therapy',
+    'Hair Salon',
     'Healthcare',
     'Beauty & Wellness',
     'Entertainment',
@@ -75,7 +75,7 @@
   };
 </script>
 
-<div style="min-height: 100vh; padding-top: 5rem; padding-left: 0; padding-right: 0; padding-bottom: 0; background: #f3f4f6;">
+<div style="min-height: 100vh; padding-top: 5rem; padding-left: 0; padding-right: 0; padding-bottom: 0; background: #B3E8FF;">
   <div style="max-width: 56rem; margin-left: auto; margin-right: auto;">
     <div style="background-color: var(--base-100, #fff); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1); border-radius: 0.75rem;">
       <div style="padding: 2rem;">
@@ -89,7 +89,7 @@
                 type="text"
                 id="businessName"
                 bind:value={formData.businessName}
-                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%;"
+                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%; background: #fff;"
                 required
               />
             </div>
@@ -102,7 +102,7 @@
                 type="text"
                 id="yTunnus"
                 bind:value={formData.yTunnus}
-                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%;"
+                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%; background: #fff;"
                 pattern="^[0-9]{7}-[0-9]$"
                 placeholder="1234567-8"
                 required
@@ -116,7 +116,7 @@
                 type="email"
                 id="email"
                 bind:value={formData.email}
-                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%;"
+                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%; background: #fff;"
                 required
               />
             </div>
@@ -125,21 +125,22 @@
                 <span>Phone Number*</span>
               </label>
               <input
-                type="tel"
+                type="tel" 
                 id="phone"
                 bind:value={formData.phone}
-                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%;"
+                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%; background: #fff;"
                 required
               />
             </div>
             <div style="display: flex; flex-direction: column; width: 100%; grid-column: span 2 / span 2;">
               <label for="category" style="margin-bottom: 0.5rem; font-weight: 500;">
                 <span>Business Category*</span>
+                <span style="font-size: 0.875rem; color: #6b7280; margin-left: 0.5rem;">Select All That Apply</span>
               </label>
               <select
                 id="category"
                 bind:value={formData.category}
-                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%;"
+                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%; background: #fff;"
                 required
               >
                 <option value="">Select a category</option>
@@ -156,7 +157,7 @@
                 type="text"
                 id="address"
                 bind:value={formData.address}
-                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%;"
+                style="border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.75rem 1rem; width: 100%; background: #fff;"
                 required
               />
             </div>

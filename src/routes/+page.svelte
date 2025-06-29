@@ -37,7 +37,7 @@
 
 <svelte:window bind:scrollY />
 
-<div style="background-color: var(--color-primary); min-height: 100vh;">
+<div style="min-h-screen; background: #B3E8FF">
   <!-- Top Centered Heading -->
   <div style="width: 100%; text-align: center; max-width: 56rem; margin: 0 auto; padding-top: 2.5rem;">
     <h1 style="font-size: 2.25rem; font-weight: 700; line-height: 1.2;">
@@ -49,7 +49,7 @@
   </div>
 
   <!-- Search Section -->
-  <section style="width: 100%; display: flex; justify-content: center; align-items: center; margin: 2rem 0; background: #B3D6FF;">
+  <section style="width: 100%; display: flex; justify-content: center; align-items: center; margin: 2rem 0;">
     <form style="background: #fff; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 2rem; max-width: 32rem; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem; border: 1px solid #B3D6FF;" on:submit|preventDefault={handleSearchSubmit}>
       <label for="service-search" style="font-size: 1.125rem; font-weight: 600; color: #222; margin-bottom: 0.5rem;">Find a Business</label>
       <input id="service-search" name="service-search" type="text" placeholder="What service are you looking for? (e.g. massage, hair cut)" style="width: 100%; padding: 0.75rem 1rem; border: 1px solid #222; border-radius: 0.5rem; font-size: 1rem; color: #222; background: #F8FAFC;" bind:value={searchValue} />
@@ -64,7 +64,7 @@
       <div style="text-align: left; color: #111; width: 100%; max-width: 28rem;">
         <div style="display: flex; align-items: center; margin-bottom: 1.5rem; color: #111;">
           <div style="margin-right: 0.75rem;">
-            <div style="background: linear-gradient(to bottom right, var(--tw-gradient-stops)); color: #111; border-radius: 0.75rem; width: 2.5rem; display: flex; align-items: center; justify-content: center; height: 2.5rem;">
+            <div style=" color: #111; border-radius: 0.75rem; width: 2.5rem; display: flex; align-items: center; justify-content: center; height: 2.5rem;">
               <span style="font-weight: 700; color: #111;">J</span>
             </div>
           </div>

@@ -2,10 +2,11 @@
 export default {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        'main-bg': '#B3D6FF',
+      },
+    },
   },
-  plugins: [require('daisyui')],
-  daisyui: {
-    themes: ['caramellatte'],
-  },
-}
+
+};

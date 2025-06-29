@@ -42,7 +42,7 @@
 
 <svelte:window bind:scrollY />
 
-<div style="min-height: 100vh; background-color: #FFB9B3; color: #111;">
+<div style="min-height: 100vh; color: #111;">
   <!-- Navigation -->
   <nav style="position: fixed; top: 0; left: 0; right: 0; width: 100vw; z-index: 50; background-color: #FFB9B3; transition: box-shadow 0.3s; box-shadow: {scrollY > 50 ? '0 4px 12px rgba(0,0,0,0.12)' : 'none'}; color: #111;">
     <div style="display: flex; align-items: center; max-width: 1280px; margin: 0 auto; padding: 0 1rem; height: 4rem; color: #111;">
