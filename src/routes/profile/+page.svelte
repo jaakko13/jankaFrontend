@@ -43,120 +43,141 @@
   }
 </script>
 
-<div class="min-h-screen bg-base-200 py-8 text-white">
+<div class="min-h-screen bg-gray-100 py-8 text-gray-800">
   <div class="max-w-2xl mx-auto">
-    <div class="card bg-base-100 shadow-xl">
-      <div class="card-body">
-        <h2 class="card-title text-2xl mb-4 text-white">Your Profile</h2>
+    <div class="bg-white rounded-lg shadow-xl">
+      <div class="p-6">
+        <h2 class="text-2xl font-bold mb-4 text-gray-800">Your Profile</h2>
         
         {#if $user}
           <div class="flex items-center gap-4 mb-6">
-            <div class="avatar">
-              <div class="w-24 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src={`https://api.dicebear.com/7.x/initials/svg?seed=${$user.email}`} alt="avatar" />
+            <div class="relative">
+              <div class="w-24 h-24 rounded-full ring-4 ring-blue-500 ring-offset-2">
+                <img class="w-full h-full rounded-full object-cover" src={`https://api.dicebear.com/7.x/initials/svg?seed=${$user.email}`} alt="avatar" />
               </div>
             </div>
             <div>
-              <h3 class="text-xl font-bold text-white">{$user.email}</h3>
-              <p class="text-white/70">Member since {new Date($user.created_at).toLocaleDateString()}</p>
+              <h3 class="text-xl font-bold text-gray-800">{$user.email}</h3>
+              <p class="text-gray-600">Member since {new Date($user.created_at).toLocaleDateString()}</p>
             </div>
           </div>
 
-          <form on:submit|preventDefault={updateProfile} class="space-y-4">
-            <div class="divider text-white">Personal Information</div>
+          <form on:submit|preventDefault={updateProfile} class="space-y-6">
+            <div class="relative py-4">
+              <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-300"></div>
+              </div>
+              <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-gray-500">Personal Information</span>
+              </div>
+            </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="form-control">
-                <label class="label">
-                  <span class="label-text text-white">First Name</span>
+              <div class="space-y-1">
+                <label for="firstName" class="block text-sm font-medium text-gray-700">
+                  First Name
                 </label>
                 <input 
                   type="text" 
                   id="firstName" 
                   bind:value={firstName} 
-                  class="input input-bordered text-white" 
+                  class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 sm:text-sm" 
                   placeholder="Enter your first name"
                 />
               </div>
 
-              <div class="form-control">
-                <label class="label">
-                  <span class="label-text text-white">Last Name</span>
+              <div class="space-y-1">
+                <label for="lastName" class="block text-sm font-medium text-gray-700">
+                  Last Name
                 </label>
                 <input 
                   type="text" 
                   id="lastName" 
                   bind:value={lastName} 
-                  class="input input-bordered text-white" 
+                  class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 sm:text-sm" 
                   placeholder="Enter your last name"
                 />
               </div>
             </div>
 
-            <div class="divider text-white">Business Information</div>
+            <div class="relative py-4">
+              <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-300"></div>
+              </div>
+              <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-gray-500">Business Information</span>
+              </div>
+            </div>
 
-            <div class="form-control">
-              <label class="label">
-                <span class="label-text text-white">Business Address</span>
+            <div class="space-y-1">
+              <label for="businessAddress" class="block text-sm font-medium text-gray-700">
+                Business Address
               </label>
               <input 
                 type="text" 
                 id="businessAddress" 
                 bind:value={businessAddress} 
-                class="input input-bordered text-white" 
+                class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 sm:text-sm" 
                 placeholder="Enter your business Address"
               />
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div class="form-control">
-                <label class="label">
-                  <span class="label-text text-white">Y-tunnus</span>
-                  <span class="label-text-alt text-white">Business ID</span>
+              <div class="space-y-1">
+                <label for="yTunnus" class="block text-sm font-medium text-gray-700">
+                  Y-tunnus
+                  <span class="text-sm text-gray-500 ml-1">(Business ID)</span>
                 </label>
                 <input 
                   type="text" 
                   id="yTunnus" 
                   bind:value={yTunnus} 
-                  class="input input-bordered text-white" 
+                  class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 sm:text-sm" 
                   placeholder="1234567-8"
                   pattern="\d{7}-\d"
                   title="Format: 1234567-8"
                 />
               </div>
 
-              <div class="form-control">
-                <label class="label">
-                  <span class="label-text text-white">Phone Number</span>
+              <div class="space-y-1">
+                <label for="phoneNumber" class="block text-sm font-medium text-gray-700">
+                  Phone Number
                 </label>
                 <input 
                   type="tel" 
                   id="phoneNumber" 
                   bind:value={phoneNumber} 
-                  class="input input-bordered text-white" 
+                  class="mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50 sm:text-sm" 
                   placeholder="+358 40 123 4567"
                 />
               </div>
             </div>
 
             {#if message}
-              <div class="alert alert-info mt-6">
-                <span class="text-white">{message}</span>
+              <div class="mt-6 rounded-md bg-blue-50 p-4">
+                <p class="text-sm text-blue-700">{message}</p>
               </div>
             {/if}
 
-            <div class="form-control mt-8">
-              <button type="submit" class="btn btn-primary w-full sm:w-auto text-white" disabled={loading}>
+            <div class="mt-8 flex justify-start">
+              <button 
+                type="submit" 
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed" 
+                disabled={loading}
+              >
                 {#if loading}
-                  <span class="loading loading-spinner"></span>
+                  <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
                 {/if}
                 Update Profile
               </button>
             </div>
           </form>
         {:else}
-          <div class="alert alert-warning">
-            <span class="text-white">Please log in to view your profile</span>
+          <div class="rounded-md bg-yellow-50 p-4">
+            <p class="text-sm font-medium text-yellow-800">Please log in to view your profile</p>
           </div>
         {/if}
       </div>
