@@ -53,6 +53,85 @@
 		showModal = false;
 		selectedVendor = null;
 	}
+
+	let appointmentDate = '';
+	let appointmentTime = '';
+	let bookingMessage = '';
+
+	const today = new Date().toISOString().split('T')[0];
+
+	let weekDays = [];
+	let selectedDay = '';
+	let availableTimes = [];
+	let selectedTime = '';
+
+	let weekOffset = 0;
+
+	function getWeekDays(offset = 0) {
+		const todayDate = new Date();
+		const start = new Date(todayDate);
+		start.setDate(todayDate.getDate() - todayDate.getDay() + offset * 7); // Sunday of offset week
+		const days = [];
+		for (let i = 0; i < 7; i++) {
+			const d = new Date(start);
+			d.setDate(start.getDate() + i);
+			days.push({
+				label: d.toLocaleDateString(undefined, {
+					weekday: 'short',
+					month: 'short',
+					day: 'numeric'
+				}),
+				value: d.toISOString().split('T')[0],
+				isToday: d.toDateString() === todayDate.toDateString()
+			});
+		}
+		return days;
+	}
+
+	function getAvailableTimesForDay(day) {
+		// Example: 9am-5pm every 30min
+		const slots = [];
+		for (let h = 9; h < 17; h++) {
+			slots.push(`${h.toString().padStart(2, '0')}:00`);
+			slots.push(`${h.toString().padStart(2, '0')}:30`);
+		}
+		return slots;
+	}
+
+	$: weekDays = getWeekDays(weekOffset);
+	$: if (selectedDay) availableTimes = getAvailableTimesForDay(selectedDay);
+
+	function selectDay(day) {
+		selectedDay = day;
+		selectedTime = '';
+		bookingMessage = '';
+	}
+
+	function selectTime(time) {
+		selectedTime = time;
+		bookingMessage = '';
+	}
+
+	function bookAppointment() {
+		if (selectedDay && selectedTime) {
+			bookingMessage = `Appointment booked for ${selectedDay} at ${selectedTime}!`;
+			selectedDay = '';
+			selectedTime = '';
+			setTimeout(() => (bookingMessage = ''), 3000);
+		}
+	}
+
+	function prevWeek() {
+		weekOffset--;
+		selectedDay = '';
+		selectedTime = '';
+	}
+
+	function nextWeek() {
+		weekOffset++;
+		selectedDay = '';
+		selectedTime = '';
+	}
 </script>
 
 <svelte:window bind:scrollY />
@@ -155,7 +234,84 @@
 				{#if selectedVendor.phone}
 					<p style="margin-bottom: 0.5rem; color: #666;">Phone: {selectedVendor.phone}</p>
 				{/if}
-				<!-- Add more fields as needed -->
+
+				<!-- Scheduling Calendar -->
+				<div style="margin-top: 2rem; width: 100%;">
+					<h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">
+						Book an Appointment
+					</h3>
+					<!-- Week Calendar -->
+					<div
+						style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; justify-content: center;"
+					>
+						<button
+							on:click={prevWeek}
+							aria-label="Previous week"
+							style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #60a5fa;"
+							>&#8592;</button
+						>
+						<div style="display: flex; gap: 0.5rem;">
+							{#each weekDays as day}
+								<button
+									on:click={() => selectDay(day.value)}
+									style="padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #B3D6FF; background: {selectedDay ===
+									day.value
+										? '#B3D6FF'
+										: '#fff'}; color: #222; font-weight: {day.isToday
+										? 700
+										: 500}; box-shadow: {day.isToday
+										? '0 0 0 2px #60a5fa'
+										: 'none'}; cursor: pointer;"
+								>
+									{day.label}
+								</button>
+							{/each}
+						</div>
+						<button
+							on:click={nextWeek}
+							aria-label="Next week"
+							style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #60a5fa;"
+							>&#8594;</button
+						>
+					</div>
+					<!-- Time Slots -->
+					{#if selectedDay}
+						<div
+							style="display: flex; flex-direction: row; gap: 2rem; margin-bottom: 1rem; justify-content: center;"
+						>
+							{#each [0, 1] as colIdx}
+								<div style="display: flex; flex-direction: column; gap: 0.5rem;">
+									{#each availableTimes.filter((_, i) => i % 2 === colIdx) as time}
+										<button
+											on:click={() => selectTime(time)}
+											style="padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #B3D6FF; background: {selectedTime ===
+											time
+												? '#B3D6FF'
+												: '#fff'}; color: #222; cursor: pointer; min-width: 5.5rem;">{time}</button
+										>
+									{/each}
+								</div>
+							{/each}
+						</div>
+					{/if}
+					<!-- Book Button -->
+					<form
+						on:submit|preventDefault={bookAppointment}
+						style="display: flex; flex-direction: column; gap: 1rem; align-items: center;"
+					>
+						<button
+							type="submit"
+							disabled={!selectedDay || !selectedTime}
+							style="background: #B3D6FF; color: #222; border: none; border-radius: 0.5rem; padding: 0.5rem 1.5rem; font-weight: 600; cursor: pointer; opacity: {selectedDay &&
+							selectedTime
+								? 1
+								: 0.5};">Book</button
+						>
+						{#if bookingMessage}
+							<p style="color: #16a34a;">{bookingMessage}</p>
+						{/if}
+					</form>
+				</div>
 			</div>
 		</div>
 	{/if}

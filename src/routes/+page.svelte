@@ -38,7 +38,7 @@
 
 <svelte:window bind:scrollY />
 
-<div style="min-h-screen; background: #B3E8FF">
+<div style="min-h-screen; background: #E6E9FF">
 	<!-- Top Centered Heading -->
 	<div
 		style="width: 100%; text-align: center; max-width: 56rem; margin: 0 auto; padding-top: 2.5rem;"
@@ -56,10 +56,10 @@
 
 	<!-- Search Section -->
 	<section
-		style="width: 100%; display: flex; justify-content: center; align-items: center; margin: 2rem 0;"
+		style="width: 100%; display: flex; justify-content: center; align-items: center; margin: 2rem 0; padding: 2rem;"
 	>
 		<form
-			style="background: #fff; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 2rem; max-width: 32rem; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem; border: 1px solid #B3D6FF;"
+			style="background: #fff; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 2rem; max-width: 64rem; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem; border: 1px solid #B3D6FF;"
 			on:submit|preventDefault={handleSearchSubmit}
 		>
 			<label
@@ -77,7 +77,7 @@
 			/>
 			<button
 				type="submit"
-				style="margin-top: 0.5rem; background: #7CCC82; color: #fff; font-weight: 600; border: none; border-radius: 0.5rem; padding: 0.75rem 2rem; font-size: 1rem; cursor: pointer; transition: background 0.2s;"
+				style="margin-top: 0.5rem; background: #FFECE6; color: #000; font-weight: 600; border: none; border-radius: 0.5rem; padding: 0.75rem 2rem; font-size: 1rem; cursor: pointer; transition: background 0.2s;"
 				>Search</button
 			>
 		</form>

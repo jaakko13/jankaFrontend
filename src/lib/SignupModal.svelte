@@ -2,21 +2,20 @@
 	import { supabase } from '$lib/supabase';
 	import { goto } from '$app/navigation';
 
-	let firstName = '';
-	let lastName = '';
+	export let open = false;
+	export let onClose = () => {};
+
 	let email = '';
 	let password = '';
+    let firstName = '';
+    let lastName = '';
 	let loading = false;
 	let error = null;
 
-	async function handleSignUp() {
+	async function handleLogin() {
 		try {
 			loading = true;
 			error = null;
-
-			if (password.length < 6) {
-				throw new Error('Password must be at least 6 characters long');
-			}
 
 			const { data, error: signUpError } = await supabase.auth.signUp({
 				email,
@@ -29,11 +28,11 @@
 				}
 			});
 
-			if (signUpError) throw signUpError;
+			if (signInError) throw signInError;
 
 			if (data.user) {
-				// Redirect to confirmation page or dashboard
-				await goto('/login');
+				onClose();
+				await goto('/');
 			}
 		} catch (e) {
 			error = e.message;
@@ -41,15 +40,16 @@
 			loading = false;
 		}
 	}
+
+	function handleOverlayClick(e) {
+		if (e.target === e.currentTarget) onClose();
+	}
 </script>
 
-<div
-	style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background-color: #E6E9FF;"
->
-	<div style="display: flex; flex-direction: column; align-items: center;">
-		<div
-			style="width: 100%; max-width: 28rem; box-shadow: 0 4px 24px rgba(0,0,0,0.1); background-color: var(--fallback-b1, #fff); border-radius: 0.75rem;"
-		>
+{#if open}
+	<div class="modal-overlay" on:click={handleOverlayClick}>
+		<div class="modal-content">
+			<button class="close-btn" on:click={onClose} aria-label="Close">&times;</button>
 			<div style="padding: 2rem;">
 				<h1 style="font-size: 1.5rem; font-weight: bold; text-align: center;">Sign Up</h1>
 				<form on:submit|preventDefault={handleSignUp}>
@@ -132,9 +132,106 @@
 			</div>
 		</div>
 	</div>
-</div>
+{/if}
 
 <style>
+	.modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0, 0, 0, 0.25);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 1000;
+	}
+	.modal-content {
+		background: var(--fallback-b1, #fff);
+		border-radius: 0.75rem;
+		box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1);
+		padding: 2rem;
+		max-width: 28rem;
+		width: 100%;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	}
+	.close-btn {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		background: none;
+		border: none;
+		font-size: 2rem;
+		color: #888;
+		cursor: pointer;
+	}
+	.modal-title {
+		font-size: 1.5rem;
+		font-weight: bold;
+		margin-bottom: 1.5rem;
+		text-align: center;
+	}
+	.form-group {
+		margin-bottom: 1rem;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+	}
+	.form-group label {
+		margin-bottom: 0.5rem;
+		font-weight: 500;
+	}
+	.form-group input {
+		padding: 0.75rem 1rem;
+		border: 1px solid #d1d5db;
+		border-radius: 0.5rem;
+		outline: none;
+		font-size: 1rem;
+		background: #fff;
+	}
+	.signup-link {
+		margin-top: 0.5rem;
+		font-size: 0.875rem;
+	}
+	.error {
+		background: #fee2e2;
+		color: #991b1b;
+		border-radius: 0.5rem;
+		padding: 0.75rem 1rem;
+		margin-top: 1rem;
+		font-size: 1rem;
+		width: 100%;
+		text-align: center;
+	}
+	.login-btn {
+		margin-top: 1.5rem;
+		padding: 0.75rem 1rem;
+		background: #ffece6;
+		color: #000;
+		border: none;
+		border-radius: 0.5rem;
+		font-size: 1rem;
+		font-weight: 600;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+	}
+	.spinner {
+		margin-right: 0.5rem;
+		width: 1.25rem;
+		height: 1.25rem;
+		border: 2px solid #fff;
+		border-top: 2px solid #3b82f6;
+		border-radius: 50%;
+		display: inline-block;
+		animation: spin 1s linear infinite;
+	}
 	@keyframes spin {
 		0% {
 			transform: rotate(0deg);
