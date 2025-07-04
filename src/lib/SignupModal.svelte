@@ -9,10 +9,11 @@
 	let password = '';
     let firstName = '';
     let lastName = '';
+	let phoneNumber = '';
 	let loading = false;
 	let error = null;
 
-	async function handleLogin() {
+	async function handleSignUp() {
 		try {
 			loading = true;
 			error = null;
@@ -23,12 +24,13 @@
 				options: {
 					data: {
 						first_name: firstName,
-						last_name: lastName
+						last_name: lastName,
+						phone_number: phoneNumber
 					}
 				}
 			});
 
-			if (signInError) throw signInError;
+			if (signUpError) throw signUpError;
 
 			if (data.user) {
 				onClose();
@@ -73,6 +75,18 @@
 							type="text"
 							id="lastName"
 							bind:value={lastName}
+							style="padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; outline: none; font-size: 1rem; background: #fff;"
+							required
+						/>
+					</div>
+					<div style="margin-bottom: 1rem; display: flex; flex-direction: column;">
+						<label style="margin-bottom: 0.5rem; font-weight: 500;" for="lastName">
+							<span>Phone Number</span>
+						</label>
+						<input
+							type="text"
+							id="phoneNumber"
+							bind:value={phoneNumber}
 							style="padding: 0.75rem 1rem; border: 1px solid #d1d5db; border-radius: 0.5rem; outline: none; font-size: 1rem; background: #fff;"
 							required
 						/>

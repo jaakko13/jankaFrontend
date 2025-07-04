@@ -4,6 +4,7 @@
 	import { supabase } from '$lib/supabase';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
+	import maplibregl from 'maplibre-gl';
 
 	let scrollY = 0;
 	let mobileMenuOpen = false;
@@ -11,8 +12,17 @@
 	let searchValue = '';
 
 	$: searchValue = $page.url.searchParams.get('search') || '';
+	let mapContainer;
 
 	onMount(async () => {
+		var map = new maplibregl.Map({
+			container: mapContainer, // container id
+			style:
+				'https://api.maptiler.com/maps/streets/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL', // style URL
+			center: [23.739395, 61.497492], // starting position [lng, lat]
+			zoom: 11 // starting zoom
+		});
+
 		if (searchValue) {
 			const { data, error } = await supabase
 				.from('Vendors')
@@ -136,247 +146,189 @@
 
 <svelte:window bind:scrollY />
 
-<div style="background-color: #B3D6FF; min-height: 100vh;">
-	<!-- Top Centered Heading -->
-	<div
-		style="width: 100%; text-align: center; max-width: 56rem; margin: 0 auto; padding-top: 2.5rem;"
-	>
-		<h1 style="font-size: 2.25rem; font-weight: 700; line-height: 1.2;">
-			<span style="color: var(--tw-prose-invert);">Live Better</span>
-		</h1>
-		<p
-			style="font-size: 1.25rem; margin-bottom: 2rem; line-height: 1.6; opacity: 0.8; padding-left: 1rem; padding-right: 1rem;"
-		>
-			Transform your appointment booking experience with AI-powered scheduling that works seamlessly
-			for both you and your clients.
-		</p>
-	</div>
+<div
+	style="width: 100%; background: #fff; border-bottom: 2px solid #B3D6FF; display: flex; align-items: center; z-index: 10; position: sticky; top: 0; height: auto; min-height: 0; padding: 0; margin: 0;"
+>
+	<!-- Nav content goes here, e.g. logo, links, etc. -->
+</div>
 
-	<!-- Search Results Section -->
-	{#if searchValue}
-		<section
-			style="width: 100%; display: flex; justify-content: center; align-items: center; margin: 2rem 0;"
-		>
-			<div
-				style="background: #fff; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 2rem; max-width: 32rem; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem; border: 1px solid #B3D6FF;"
+<div
+	style="display: flex; flex-direction: column; height: 100vh; background-color: #E6E9FF; overflow: hidden;"
+>
+	<div style="display: flex; flex: 1 1 auto; width: 100%; height: 100%;">
+		<!-- Search Results Section -->
+		{#if searchValue}
+			<section
+				style="width: 50vw; min-width: 22rem; max-width: 50vw; display: flex; flex-direction: column; align-items: flex-start; padding: 2rem 1.5rem 0 2rem; background-color: #E6E9FF; border-right: 1px solid #B3D6FF; height: 100vh; position: sticky; top: 0; overflow-y: auto;"
 			>
-				<h2 style="font-size: 1.25rem; font-weight: 600; color: #222; margin-bottom: 0.5rem;">
-					Search Results for "{searchValue}"
-				</h2>
-				{#if vendors.length > 0}
-					<div
-						style="display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; width: 100%;"
-					>
-						{#each vendors as vendor}
-							<div
-								style="background: #f8fafc; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; min-width: 16rem; max-width: 20rem; width: 100%; cursor: pointer; border: 1px solid #B3D6FF; display: flex; flex-direction: column; align-items: flex-start; transition: box-shadow 0.2s;"
-								on:click={() => openVendorModal(vendor)}
-								on:keydown={(e) => e.key === 'Enter' && openVendorModal(vendor)}
-								tabindex="0"
-								aria-label={`View details for ${vendor.vendor_name}`}
-							>
-								<h3
-									style="font-size: 1.1rem; font-weight: 600; color: #222; margin-bottom: 0.5rem;"
-								>
-									{vendor.vendor_name}
-								</h3>
-								{#if vendor.description}
-									<p style="font-size: 0.95rem; color: #444; margin-bottom: 0.5rem;">
-										{vendor.description}
-									</p>
-								{/if}
-								{#if vendor.category}
-									<p style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">
-										Category: {vendor.category}
-									</p>
-								{/if}
-								{#if vendor.location}
-									<p style="font-size: 0.9rem; color: #666;">Location: {vendor.location}</p>
-								{/if}
-							</div>
-						{/each}
-					</div>
-				{:else}
-					<p style="color: #888;">No vendors found.</p>
-				{/if}
-			</div>
-		</section>
-	{/if}
-
-	<!-- Vendor Modal (Reusable) -->
-	{#if showModal && selectedVendor}
-		<div
-			style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; z-index: 1000;"
-		>
-			<div
-				style="background: #fff; border-radius: 1rem; padding: 2rem; min-width: 20rem; max-width: 90vw; box-shadow: 0 4px 24px rgba(0,0,0,0.15); position: relative;"
-			>
-				<button
-					on:click={closeVendorModal}
-					style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer;"
-					>&times;</button
+				<div
+					style="background: #fff; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 2rem; width: 100%; display: flex; flex-direction: column; align-items: flex-start; gap: 1rem; border: 1px solid #B3D6FF;"
 				>
-				<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">
-					{selectedVendor.vendor_name}
-				</h2>
-				{#if selectedVendor.description}
-					<p style="margin-bottom: 1rem; color: #444;">{selectedVendor.description}</p>
-				{/if}
-				{#if selectedVendor.category}
-					<p style="margin-bottom: 0.5rem; color: #666;">Category: {selectedVendor.category}</p>
-				{/if}
-				{#if selectedVendor.location}
-					<p style="margin-bottom: 0.5rem; color: #666;">Location: {selectedVendor.location}</p>
-				{/if}
-				{#if selectedVendor.email}
-					<p style="margin-bottom: 0.5rem; color: #666;">Email: {selectedVendor.email}</p>
-				{/if}
-				{#if selectedVendor.phone}
-					<p style="margin-bottom: 0.5rem; color: #666;">Phone: {selectedVendor.phone}</p>
-				{/if}
-
-				<!-- Scheduling Calendar -->
-				<div style="margin-top: 2rem; width: 100%;">
-					<h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">
-						Book an Appointment
-					</h3>
-					<!-- Week Calendar -->
-					<div
-						style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; justify-content: center;"
-					>
-						<button
-							on:click={prevWeek}
-							aria-label="Previous week"
-							style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #60a5fa;"
-							>&#8592;</button
-						>
-						<div style="display: flex; gap: 0.5rem;">
-							{#each weekDays as day}
-								<button
-									on:click={() => selectDay(day.value)}
-									style="padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #B3D6FF; background: {selectedDay ===
-									day.value
-										? '#B3D6FF'
-										: '#fff'}; color: #222; font-weight: {day.isToday
-										? 700
-										: 500}; box-shadow: {day.isToday
-										? '0 0 0 2px #60a5fa'
-										: 'none'}; cursor: pointer;"
+					<h2 style="font-size: 1.25rem; font-weight: 600; color: #222; margin-bottom: 0.5rem;">
+						Search Results for "{searchValue}"
+					</h2>
+					{#if vendors.length > 0}
+						<div style="display: flex; flex-direction: column; gap: 1.5rem; width: 100%;">
+							{#each vendors as vendor}
+								<div
+									style="background: #f8fafc; border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.07); padding: 1.5rem; min-width: 16rem; max-width: 20rem; width: 100%; cursor: pointer; border: 1px solid #B3D6FF; display: flex; flex-direction: column; align-items: flex-start; transition: box-shadow 0.2s;"
+									on:click={() => openVendorModal(vendor)}
+									on:keydown={(e) => e.key === 'Enter' && openVendorModal(vendor)}
+									tabindex="0"
+									aria-label={`View details for ${vendor.vendor_name}`}
 								>
-									{day.label}
-								</button>
-							{/each}
-						</div>
-						<button
-							on:click={nextWeek}
-							aria-label="Next week"
-							style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #60a5fa;"
-							>&#8594;</button
-						>
-					</div>
-					<!-- Time Slots -->
-					{#if selectedDay}
-						<div
-							style="display: flex; flex-direction: row; gap: 2rem; margin-bottom: 1rem; justify-content: center;"
-						>
-							{#each [0, 1] as colIdx}
-								<div style="display: flex; flex-direction: column; gap: 0.5rem;">
-									{#each availableTimes.filter((_, i) => i % 2 === colIdx) as time}
-										<button
-											on:click={() => selectTime(time)}
-											style="padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #B3D6FF; background: {selectedTime ===
-											time
-												? '#B3D6FF'
-												: '#fff'}; color: #222; cursor: pointer; min-width: 5.5rem;">{time}</button
-										>
-									{/each}
+									<h3
+										style="font-size: 1.1rem; font-weight: 600; color: #222; margin-bottom: 0.5rem;"
+									>
+										{vendor.vendor_name}
+									</h3>
+									{#if vendor.description}
+										<p style="font-size: 0.95rem; color: #444; margin-bottom: 0.5rem;">
+											{vendor.description}
+										</p>
+									{/if}
+									{#if vendor.category}
+										<p style="font-size: 0.9rem; color: #666; margin-bottom: 0.5rem;">
+											Category: {vendor.category}
+										</p>
+									{/if}
+									{#if vendor.location}
+										<p style="font-size: 0.9rem; color: #666;">Location: {vendor.location}</p>
+									{/if}
 								</div>
 							{/each}
 						</div>
+					{:else}
+						<p style="color: #888;">No vendors found.</p>
 					{/if}
-					<!-- Book Button -->
-					<form
-						on:submit|preventDefault={bookAppointment}
-						style="display: flex; flex-direction: column; gap: 1rem; align-items: center;"
+				</div>
+			</section>
+		{/if}
+
+		<!-- Main Content (Modal, etc. and Map) -->
+		<div
+			style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; align-items: stretch; height: 100vh;"
+		>
+			{#if showModal && selectedVendor}
+				<div
+					style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.35); display: flex; align-items: center; justify-content: center; z-index: 1000;"
+				>
+					<div
+						style="background: #fff; border-radius: 1rem; padding: 2rem; min-width: 20rem; max-width: 90vw; box-shadow: 0 4px 24px rgba(0,0,0,0.15); position: relative;"
 					>
 						<button
-							type="submit"
-							disabled={!selectedDay || !selectedTime}
-							style="background: #B3D6FF; color: #222; border: none; border-radius: 0.5rem; padding: 0.5rem 1.5rem; font-weight: 600; cursor: pointer; opacity: {selectedDay &&
-							selectedTime
-								? 1
-								: 0.5};">Book</button
+							on:click={closeVendorModal}
+							style="position: absolute; top: 1rem; right: 1rem; background: none; border: none; font-size: 1.5rem; cursor: pointer;"
+							>&times;</button
 						>
-						{#if bookingMessage}
-							<p style="color: #16a34a;">{bookingMessage}</p>
+						<h2 style="font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem;">
+							{selectedVendor.vendor_name}
+						</h2>
+						{#if selectedVendor.description}
+							<p style="margin-bottom: 1rem; color: #444;">{selectedVendor.description}</p>
 						{/if}
-					</form>
-				</div>
-			</div>
-		</div>
-	{/if}
+						{#if selectedVendor.category}
+							<p style="margin-bottom: 0.5rem; color: #666;">Category: {selectedVendor.category}</p>
+						{/if}
+						{#if selectedVendor.location}
+							<p style="margin-bottom: 0.5rem; color: #666;">Location: {selectedVendor.location}</p>
+						{/if}
+						{#if selectedVendor.email}
+							<p style="margin-bottom: 0.5rem; color: #666;">Email: {selectedVendor.email}</p>
+						{/if}
+						{#if selectedVendor.phone}
+							<p style="margin-bottom: 0.5rem; color: #666;">Phone: {selectedVendor.phone}</p>
+						{/if}
 
-	<!-- Footer -->
-	<footer style="text-align: center; padding: 2.5rem; color: #111;">
-		<div
-			style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2rem; max-width: 80rem; margin: 0 auto; color: #111;"
-		>
-			<!-- Company Info -->
-			<div style="text-align: left; color: #111; width: 100%; max-width: 28rem;">
-				<div style="display: flex; align-items: center; margin-bottom: 1.5rem; color: #111;">
-					<div style="margin-right: 0.75rem;">
-						<div
-							style="background: linear-gradient(to bottom right, var(--tw-gradient-stops)); color: #111; border-radius: 0.75rem; width: 2.5rem; display: flex; align-items: center; justify-content: center; height: 2.5rem;"
-						>
-							<span style="font-weight: 700; color: #111;">J</span>
+						<!-- Scheduling Calendar -->
+						<div style="margin-top: 2rem; width: 100%;">
+							<h3 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem;">
+								Book an Appointment
+							</h3>
+							<!-- Week Calendar -->
+							<div
+								style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; justify-content: center;"
+							>
+								<button
+									on:click={prevWeek}
+									aria-label="Previous week"
+									style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #60a5fa;"
+									>&#8592;</button
+								>
+								<div style="display: flex; gap: 0.5rem;">
+									{#each weekDays as day}
+										<button
+											on:click={() => selectDay(day.value)}
+											style="padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #B3D6FF; background: {selectedDay ===
+											day.value
+												? '#B3D6FF'
+												: '#fff'}; color: #222; font-weight: {day.isToday
+												? 700
+												: 500}; box-shadow: {day.isToday
+												? '0 0 0 2px #60a5fa'
+												: 'none'}; cursor: pointer;"
+										>
+											{day.label}
+										</button>
+									{/each}
+								</div>
+								<button
+									on:click={nextWeek}
+									aria-label="Next week"
+									style="background: none; border: none; font-size: 1.5rem; cursor: pointer; color: #60a5fa;"
+									>&#8594;</button
+								>
+							</div>
+							<!-- Time Slots -->
+							{#if selectedDay}
+								<div
+									style="display: flex; flex-direction: row; gap: 2rem; margin-bottom: 1rem; justify-content: center;"
+								>
+									{#each [0, 1] as colIdx}
+										<div style="display: flex; flex-direction: column; gap: 0.5rem;">
+											{#each availableTimes.filter((_, i) => i % 2 === colIdx) as time}
+												<button
+													on:click={() => selectTime(time)}
+													style="padding: 0.5rem 1rem; border-radius: 0.5rem; border: 1px solid #B3D6FF; background: {selectedTime ===
+													time
+														? '#B3D6FF'
+														: '#fff'}; color: #222; cursor: pointer; min-width: 5.5rem;"
+													>{time}</button
+												>
+											{/each}
+										</div>
+									{/each}
+								</div>
+							{/if}
+							<!-- Book Button -->
+							<form
+								on:submit|preventDefault={bookAppointment}
+								style="display: flex; flex-direction: column; gap: 1rem; align-items: center;"
+							>
+								<button
+									type="submit"
+									disabled={!selectedDay || !selectedTime}
+									style="background: #B3D6FF; color: #222; border: none; border-radius: 0.5rem; padding: 0.5rem 1.5rem; font-weight: 600; cursor: pointer; opacity: {selectedDay &&
+									selectedTime
+										? 1
+										: 0.5};">Book</button
+								>
+								{#if bookingMessage}
+									<p style="color: #16a34a;">{bookingMessage}</p>
+								{/if}
+							</form>
 						</div>
 					</div>
-					<span style="font-size: 2rem; font-weight: 700; color: #111;">Janka</span>
 				</div>
-				<p style="font-size: 1rem; opacity: 0.9; margin-bottom: 1.5rem; color: #111;">
-					The smartest way to manage appointments and grow your business. Trusted by thousands of
-					professionals worldwide.
-				</p>
-				<div style="display: flex; gap: 0.75rem;">
-					<button
-						style="border-radius: 9999px; background: none; color: #111; width: 2rem; height: 2rem;"
-						>📧</button
-					>
-					<button
-						style="border-radius: 9999px; background: none; color: #111; width: 2rem; height: 2rem;"
-						>🐦</button
-					>
-					<button
-						style="border-radius: 9999px; background: none; color: #111; width: 2rem; height: 2rem;"
-						>📱</button
-					>
-				</div>
-			</div>
-			<!-- Product and Support Links Side by Side -->
+			{/if}
+
+			<!-- Map only on the right/main content side -->
 			<div
-				style="display: flex; flex-direction: row; gap: 2rem; width: 100%; max-width: 40rem; justify-content: center; align-items: flex-start;"
-				id="footer-links"
-			>
-				<div style="color: #111; min-width: 10rem;">
-					<span style="font-weight: 600; color: #111;">Product</span>
-					<a style="display: block; margin-top: 0.5rem; color: #111;">Features</a>
-					<a style="display: block; margin-top: 0.5rem; color: #111;">Pricing</a>
-				</div>
-				<div style="color: #111; min-width: 10rem;">
-					<span style="font-weight: 600; color: #111;">Support</span>
-					<a style="display: block; margin-top: 0.5rem; color: #111;">Help Center</a>
-					<a style="display: block; margin-top: 0.5rem; color: #111;">Contact Us</a>
-					<a style="display: block; margin-top: 0.5rem; color: #111;">Privacy</a>
-					<a style="display: block; margin-top: 0.5rem; color: #111;">Terms</a>
-				</div>
-			</div>
+				bind:this={mapContainer}
+				style="width: 100%; height: 100%; flex: 1 1 auto; margin: 0;"
+			></div>
 		</div>
-		<div style="border-top: 1px solid #e5e7eb; margin-top: 2rem; padding-top: 1rem; color: #111;">
-			<p style="font-size: 1rem; opacity: 0.9; color: #111;">
-				&copy; 2025 Janka. All rights reserved. Built with ❤️ for appointment scheduling excellence.
-			</p>
-		</div>
-	</footer>
+	</div>
 </div>
 
 <style>
@@ -384,6 +336,12 @@
 	@import url('https://cdn.jsdelivr.net/npm/tailwindcss@3.3.0/base.css');
 	:global(html) {
 		scroll-behavior: smooth;
+		height: 100%;
+		overflow: hidden;
+	}
+	:global(body) {
+		height: 100%;
+		overflow: hidden;
 	}
 	:global([data-theme='light']) {
 		--fallback-p: 259 94% 51%;

@@ -4,6 +4,7 @@
 
 	export let open = false;
 	export let onClose = () => {};
+	export let onOpenSignUp = () => {};
 
 	let email = '';
 	let password = '';
@@ -36,6 +37,15 @@
 	function handleOverlayClick(e) {
 		if (e.target === e.currentTarget) onClose();
 	}
+
+	function signInWithGoogle() {
+		supabase.auth.signInWithOAuth({
+			provider: 'google',
+			options: {
+				redirectTo: window.location.origin
+			}
+		});
+	}
 </script>
 
 {#if open}
@@ -43,6 +53,12 @@
 		<div class="modal-content">
 			<button class="close-btn" on:click={onClose} aria-label="Close">&times;</button>
 			<h1 class="modal-title">Login</h1>
+			<button on:click={signInWithGoogle} class="login-btn" disabled={loading}>
+					{#if loading}
+						<span class="spinner"></span>
+					{/if}
+					Login With Google
+				</button>
 			<form on:submit|preventDefault={handleLogin}>
 				<div class="form-group">
 					<label for="email">Email</label>
@@ -52,9 +68,16 @@
 					<label for="password">Password</label>
 					<input type="password" id="password" bind:value={password} required />
 					<label class="signup-link">
-						<a href="/signup" style="color: #3b82f6; text-decoration: underline;"
-							>Don't have an account?</a
+						<a
+							href="#"
+							style="color: #3b82f6; text-decoration: underline;"
+							on:click|preventDefault={() => {
+								onClose();
+								onOpenSignUp();
+							}}
 						>
+							Don't have an account?
+						</a>
 					</label>
 				</div>
 				{#if error}

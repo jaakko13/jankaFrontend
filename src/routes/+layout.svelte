@@ -15,7 +15,6 @@
 	let loginModalOpen = false;
 	let signUpModalOpen = false;
 
-
 	function toggleMenu() {
 		menuOpen = !menuOpen;
 	}
@@ -110,10 +109,12 @@
 							style="color: #111; font-weight: 500;"
 							on:click|preventDefault={() => (loginModalOpen = true)}>Log In</a
 						>
-						<a href="#"
+						<a
+							href="#"
 							sveltekit:prefetch
 							style="color: #111; font-weight: 500;"
-							on:click|preventDefault={() => (signUpModalOpen = true)}>Sign Up</a>
+							on:click|preventDefault={() => (signUpModalOpen = true)}>Sign Up</a
+						>
 					{/if}
 				</div>
 			{/if}
@@ -224,7 +225,13 @@
 	<main style="padding-top: 4rem; color: #111;">
 		<slot />
 	</main>
-	<LoginModal open={loginModalOpen} onClose={() => (loginModalOpen = false)} />
+	<LoginModal
+		open={loginModalOpen}
+		onClose={() => (loginModalOpen = false)}
+		onOpenSignUp={() => {
+			loginModalOpen = false;
+			signUpModalOpen = true;
+		}}
+	/>
 	<SignupModal open={signUpModalOpen} onClose={() => (signUpModalOpen = false)} />
-
 </div>

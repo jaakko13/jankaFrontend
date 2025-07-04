@@ -308,7 +308,7 @@
 					<div style="display: flex; justify-content: center;">
 						<button
 							type="submit"
-							style="background-color: #2563eb; color: #fff; font-size: 1.125rem; padding: 0.75rem 2rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;"
+							style="background-color: #FFECE6; color: #000; font-size: 1.125rem; padding: 0.75rem 2rem; border-radius: 0.5rem; font-weight: 600; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem;"
 							disabled={submitting}
 						>
 							{#if submitting}
